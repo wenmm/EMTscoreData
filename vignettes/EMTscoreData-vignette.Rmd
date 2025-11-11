@@ -1,0 +1,49 @@
+---
+title: "EMTscoreData Package Vignette"
+author: "Your Name"
+output: BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{EMTscoreData Package Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(EMTscoreData)
+library(BiocStyle)
+```
+
+
+```{r}
+library(googledrive)
+
+drive_deauth()
+
+drive_user()
+
+#public_file <-  drive_get(as_id("1vj607etanUVYzVFj_HXkznHTd0Ltv_Y4"))
+#drive_download(public_file, overwrite = TRUE)
+
+folder_url <- "https://drive.google.com/drive/folders/1SIEIf7UswTv_0S6TypYsaRzMcfkfsgji"
+
+files <- drive_ls(as_id(folder_url))
+
+rds_files <- files[grepl("\\.rds$", files$name, ignore.case = TRUE) &
+                     !grepl("Kinase", files$name, ignore.case = TRUE), ]
+
+local_dir <- "data-raw/downloaded"
+if (!dir.exists(local_dir)) dir.create(local_dir, recursive = TRUE)
+
+for(i in seq_len(nrow(rds_files))) {
+  file_name <- rds_files$name[i]
+  file_id <- rds_files$id[i]
+  dest <- file.path(local_dir, file_name)
+
+  message("Downloading ", file_name, " ...")
+  drive_download(as_id(file_id), path = dest, overwrite = TRUE)
+}
+```
+
+```{r}
+sessionInfo()
+```

@@ -1,0 +1,56 @@
+#' Single-cell RNA-seq EMT datasets from Cook & Vanderhyden (2020)
+#'
+#' This dataset collection contains single-cell RNA-seq (scRNA-seq) profiles of
+#' human epithelial cancer cell lines (MCF7, OVCA420, DU145, and A549) treated
+#' with EMT-inducing factors: TNF, EGF, or TGFB1.
+#'
+#' Each dataset was processed into a Seurat object and saved as an .rds file.
+#' These data were generated and described in Cook & Vanderhyden (2020).
+#'
+#' @details
+#' The datasets can be accessed via \code{ExperimentHub} using the provided accessors.
+#' Each object contains gene expression matrices and associated cell metadata,
+#' such as cell type, condition, and treatment.
+#'
+#' @format Seurat objects containing scRNA-seq profiles for specific
+#' cell line × treatment combinations.
+#'
+#' @references
+#' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional response.
+#' \emph{Nature Communications} 2020 May 1;11(1):2142.
+#'
+#' @examples
+#' library(ExperimentHub)
+#' eh <- ExperimentHub()
+#' query(eh, "EMTscoreData")
+#'
+#' # Example: load MCF7 TGFB1 dataset
+#' mcf7_tgfb1 <- EMTscoreData::cook2020_sc_MCF7_TGFB1()
+#'
+#' @name cook2020_sc_datasets
+NULL
+
+.onLoad <- function(libname, pkgname) {
+  fl <- system.file("extdata", "metadata.csv", package = pkgname)
+  titles <- utils::read.csv(fl, stringsAsFactors = FALSE)$Title
+
+  # MCF7 datasets
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_TNF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_EGF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_TGFB1')
+
+  # OVCA420 datasets
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_TNF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_EGF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_TGFB1')
+
+  # DU145 datasets
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_TNF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_EGF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_TGFB1')
+
+  # A549 datasets
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_TNF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_EGF')
+  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_TGFB1')
+}
