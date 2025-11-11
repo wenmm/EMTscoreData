@@ -13,18 +13,18 @@
 #'
 #' @section Datasets included:
 #' \itemize{
-#'   \item cook2020_sc_MCF7_TGFb
-#'   \item cook2020_sc_MCF7_Kinase
-#'   \item cook2020_sc_OVCA420_TGFb
-#'   \item cook2020_sc_OVCA420_Kinase
-#'   \item cook2020_sc_DU145_TGFb
-#'   \item cook2020_sc_DU145_Kinase
-#'   \item cook2020_sc_A549_TGFb
-#'   \item cook2020_sc_A549_Kinase
-#'   \item cook2020_sc_MCF7_TimeCourse
-#'   \item cook2020_sc_OVCA420_TimeCourse
-#'   \item cook2020_sc_DU145_TimeCourse
-#'   \item cook2020_sc_A549_TimeCourse
+#'   \item cook2020_sc_MCF7_TNF
+#'   \item cook2020_sc_MCF7_EGF
+#'   \item cook2020_sc_MCF7_TGFB1
+#'   \item cook2020_sc_OVCA420_TNF
+#'   \item cook2020_sc_OVCA420_EGF
+#'   \item cook2020_sc_OVCA420_TGFB1
+#'   \item cook2020_sc_DU145_TNF
+#'   \item cook2020_sc_DU145_EGF
+#'   \item cook2020_sc_DU145_TGFB1
+#'   \item cook2020_sc_A549_TNF
+#'   \item cook2020_sc_A549_EGF
+#'   \item cook2020_sc_A549_TGFB1
 #' }
 #'
 #' @source GEO accession: \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147405}
@@ -37,6 +37,6 @@
 #' library(ExperimentHub)
 #' library(EMTscoreData)
 #' eh <- ExperimentHub()
-#' mcf7_tgfb <- cook2020_sc_MCF7_TGFb()
+#' mcf7_tgfb <- cook2020_sc_MCF7_TGFB1()
 #' dim(mcf7_tgfb)
 "_PACKAGE"
