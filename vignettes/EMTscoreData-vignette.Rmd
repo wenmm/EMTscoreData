@@ -45,5 +45,42 @@ for(i in seq_len(nrow(rds_files))) {
 ```
 
 ```{r}
+library(Seurat)
+library(SingleCellExperiment)
+
+# rds file path
+input_dir <- "data-raw/downloaded"
+output_dir <- "data-raw/downloaded"
+
+# If the output directory does not exist, create it automatically.
+if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+
+# Get all rds files
+files <- list.files(input_dir, pattern = "\\.rds$", full.names = TRUE)
+
+for (f in files) {
+  message("Processing: ", f)
+  
+  # Construct full path and read Seurat object
+  seurat_obj <- readRDS(file.path(input_dir, f))
+  seurat_obj <- UpdateSeuratObject(seurat_obj)
+  
+  # Convert to SingleCellExperiment
+  sce_obj <- as.SingleCellExperiment(seurat_obj)
+  
+  # Use file name prefix as variable name
+  var_name <- tools::file_path_sans_ext(f)
+  assign(var_name, sce_obj)
+  
+  # Save as .rda
+  out_path <- file.path(output_dir, paste0(var_name, ".rda"))
+  save(list = var_name, file = out_path)
+  
+  message("Saved: ", out_path)
+}
+
+```
+
+```{r}
 sessionInfo()
 ```
