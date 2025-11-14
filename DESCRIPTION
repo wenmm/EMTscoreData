@@ -12,7 +12,9 @@ Imports:
     utils,
     methods,
     SummarizedExperiment,
-    Seurat
+    Seurat,
+    googledrive,
+    SingleCellExperiment
 Suggests:
     BiocStyle,
     knitr,

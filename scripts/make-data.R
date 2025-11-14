@@ -36,7 +36,7 @@ output_dir <- "data-raw/downloaded"
 # If the output directory does not exist, create it automatically.
 if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
-# Get all rds files
+# Get all RDS
 files <- list.files(input_dir, pattern = "\\.rds$", full.names = TRUE)
 
 for (f in files) {
