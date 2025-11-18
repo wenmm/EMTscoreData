@@ -1,5 +1,5 @@
 ---
-title: "EMTscoreData Package Vignette"
+title: "EMTscoreData Package"
 author: "Your Name"
 output: BiocStyle::html_document
 vignette: >
