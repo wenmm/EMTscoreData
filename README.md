@@ -49,6 +49,5 @@ The dataset included in this package is derived from:
 **Cook DP, et al.**  
 *Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional response. Nat Commun 2020 May 1;11(1):2142. PMID: 32358524*  
 GEO accession: **GSE147405**  
-https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147405
 
 If you use **EMTscoreData** in your work, please cite both **Cook DP, et al.** and the **EMTscore** package (once it is published).
