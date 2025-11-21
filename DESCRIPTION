@@ -20,6 +20,9 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-biocViews: ExperimentHub
+biocViews: 
+    ExperimentHub,
+    SingleCellData,
+    GeneExpressionData
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

@@ -1,20 +1,8 @@
----
-title: "EMTscoreData Package"
-author: "Haimei Wen"
-output: BiocStyle::html_document
-vignette: >
-  %\VignetteIndexEntry{EMTscoreData Package Vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r setup, include=FALSE}
+## ----setup, include=FALSE-----------------------------------------------------
 library(EMTscoreData)
 library(BiocStyle)
-```
 
-
-```{r}
+## -----------------------------------------------------------------------------
 library(googledrive)
 
 drive_deauth()
@@ -42,9 +30,8 @@ for(i in seq_len(nrow(rds_files))) {
   message("Downloading ", file_name, " ...")
   drive_download(as_id(file_id), path = dest, overwrite = TRUE)
 }
-```
 
-```{r}
+## -----------------------------------------------------------------------------
 library(Seurat)
 library(SingleCellExperiment)
 
@@ -79,8 +66,7 @@ for (f in files) {
   message("Saved: ", out_path)
 }
 
-```
 
-```{r}
+## -----------------------------------------------------------------------------
 sessionInfo()
-```
+

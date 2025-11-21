@@ -29,32 +29,12 @@
 #' query(eh, "EMTscoreData") 
 #'
 #' #Example: load MCF7 TGFb1 dataset
-#' mcf7_tgfb1 <- EMTscoreData::cook2020_sc_MCF7_TGFB1()
+#' mcf7_tgfb1 <- eh[["EH10284"]]
 #' 
 #' @name cook2020_sc_MCF7_TGFB1
 NULL
 
 .onLoad <- function(libname, pkgname) {
-  fl <- system.file("extdata", "metadata.csv", package = pkgname)
-  titles <- utils::read.csv(fl, stringsAsFactors = FALSE)$Title
-  
-  # MCF7 datasets
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_TNF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_EGF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_MCF7_TGFB1')
-  
-  # OVCA420 datasets
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_TNF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_EGF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_OVCA420_TGFB1')
-  
-  # DU145 datasets
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_TNF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_EGF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_DU145_TGFB1')
-  
-  # A549 datasets
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_TNF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_EGF')
-  ExperimentHub::createHubAccessors(pkgname, 'cook2020_sc_A549_TGFB1')
+  # No need to call registerHub
+  invisible()
 }

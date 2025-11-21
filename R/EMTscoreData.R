@@ -37,4 +37,4 @@
 #' library(ExperimentalHub)
 #' library(EMTscoreData)
 #' eh <- ExperimentHub()
-#' mcf7_tgfb <- cook2020_sc_MCF7_TGFB1()
+#' mcf7_tgfb <- eh[["EH10284"]]

@@ -30,7 +30,7 @@ eh <- ExperimentHub()
 query(eh, "EMTscoreData") 
 
 #Example: load MCF7 TGFb1 dataset
-mcf7_tgfb1 <- EMTscoreData::cook2020_sc_MCF7_TGFB1()
+mcf7_tgfb1 <- eh[["EH10284"]]
 
 }
 \references{
