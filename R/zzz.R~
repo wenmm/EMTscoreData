@@ -31,7 +31,10 @@
 #' #Example: load MCF7 TGFb1 dataset
 #' mcf7_tgfb1 <- eh[["EH10284"]]
 #' 
-#' @return SingleCellExperiment dataset
 #' @name cook2020_sc_MCF7_TGFB1
 NULL
 
+.onLoad <- function(libname, pkgname) {
+  # No need to call registerHub
+  invisible()
+}
