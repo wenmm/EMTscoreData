@@ -54,7 +54,7 @@ for (f in files) {
   assign(var_name, sce_obj)
   
   # Save as .rda
-  out_path <- file.path(output_dir, paste0(var_name, ".rda"))
+  out_path <- paste0(var_name, ".rda")
   save(list = var_name, file = out_path)
   
   message("Saved: ", out_path)
