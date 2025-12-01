@@ -43,7 +43,7 @@ for (f in files) {
   message("Processing: ", f)
   
   # Construct full path and read Seurat object
-  seurat_obj <- readRDS(file.path(input_dir, f))
+  seurat_obj <- readRDS(f)
   seurat_obj <- UpdateSeuratObject(seurat_obj)
   
   # Convert to SingleCellExperiment
