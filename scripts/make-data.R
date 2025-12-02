@@ -50,11 +50,11 @@ for (f in files) {
   sce_obj <- as.SingleCellExperiment(seurat_obj)
   
   # Use file name prefix as variable name
-  var_name <- tools::file_path_sans_ext(f)
+  var_name <- tools::file_path_sans_ext(basename(f))
   assign(var_name, sce_obj)
   
   # Save as .rda
-  out_path <- paste0(var_name, ".rda")
+  out_path <- file.path(output_dir, paste0(var_name, ".rda"))
   save(list = var_name, file = out_path)
   
   message("Saved: ", out_path)
