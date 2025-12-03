@@ -5,17 +5,14 @@ Authors@R:
     person("Haimei", "Wen", , "hudie.luoluo@gmail.com", role = c("aut", "cre"))
 Description: Provides 12 single-cell RNA-seq datasets profiling epithelial mesenchymal transition (EMT) in human cancer cell lines (MCF7, OVCA420, DU145, A549) under TGF-beta stimulation, kinase inhibition, and time-course conditions, as reported in Cook DP & Vanderhyden BC (2020). Data are available as Seurat objects via ExperimentHub..
 License: GPL-3
-Encoding: UTF-8
 Imports:
     ExperimentHub,
     AnnotationHub,
-    utils,
-    methods,
     SummarizedExperiment,
     Seurat,
-    googledrive,
     SingleCellExperiment
 Suggests:
+    googledrive,
     BiocStyle,
     knitr,
     rmarkdown
@@ -23,5 +20,8 @@ VignetteBuilder: knitr
 biocViews: 
     ExperimentHub,
     SingleCellData,
-Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 7.3.3
+NeedsCompilation: no
+Packaged: 2024-08-14 05:29:44 UTC; hwen6

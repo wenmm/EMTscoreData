@@ -22,16 +22,25 @@
 #' @references
 #' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional
 #' response. \emph{Nature Communications} 2020 May 1;11(1):2142.
-#' 
+#' @export
+#' @import AnnotationHub ExperimentHub Seurat SingleCellExperiment
 #' @examples
 #' library(ExperimentHub)
 #' eh <- ExperimentHub()
 #' query(eh, "EMTscoreData") 
 #'
-#' #Example: load MCF7 TGFb1 dataset
-#' mcf7_tgfb1 <- eh[["EH10284"]]
+#' #Example: load MCF7 TNF dataset
+#' MCF7_TNF <- eh[["EH10282"]]
 #' 
 #' @return SingleCellExperiment dataset
-#' @name cook2020_sc_MCF7_TGFB1
+#' @name MCF7_TNF
 NULL
 
+.onLoad <- function(libname, pkgname) {
+  fl = system.file("extdata", "metadata.csv", package = pkgname)
+  titles = utils::read.csv(fl, stringsAsFactors = FALSE)$Title
+  
+  ExperimentHub::createHubAccessors(pkgname, 'MCF7_TNF')
+  ExperimentHub::createHubAccessors(pkgname, 'MCF7_EGF')
+  ExperimentHub::createHubAccessors(pkgname, 'MCF7_TGFB1')
+}

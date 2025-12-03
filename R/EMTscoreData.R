@@ -13,22 +13,23 @@
 #' 
 #' @section Datasets includes:
 #' \itemize{
-#' \item cook2020_sc_MCF7_TNF
-#' \item cook2020_sc_MCF7_EGF
-#' \item cook2020_sc_MCF7_TGFB1
-#' \item cook2020_sc_OVCA420_TNF
-#' \item cook2020_sc_OVCA420_EGF
-#' \item cook2020_sc_OVCA420_TGFB1
-#' \item cook2020_sc_DU145_TNF
-#' \item cook2020_sc_DU145_EGF
-#' \item cook2020_sc_DU145_TGFB1
-#' \item cook2020_sc_A549_TNF
-#' \item cook2020_sc_A549_EGF
-#' \item cook2020_sc_A549_TGFB1
+#' \item MCF7_TNF
+#' \item MCF7_EGF
+#' \item MCF7_TGFB1
+#' \item OVCA420_TNF
+#' \item OVCA420_EGF
+#' \item OVCA420_TGFB1
+#' \item DU145_TNF
+#' \item DU145_EGF
+#' \item DU145_TGFB1
+#' \item A549_TNF
+#' \item A549_EGF
+#' \item A549_TGFB1
 #' }
 #' 
 #' source GEO accession: GSE147405
-#' 
+#' @export
+#' @import ExperimentalHub EMTscoreData AnnotationHub
 #' @references
 #' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional
 #' response. Nature Communications. 2020 May 1;11(1):2142. PMID: 32358524

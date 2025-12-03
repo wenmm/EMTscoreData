@@ -1,0 +1,94 @@
+---
+title: "EMTscoreData Package"
+author: "haimei wen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{EMTscoreData Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# 1. Introduction of EMTscoreData
+EMTscoreData is an R ExperimentHub package that provides curated gene expression datasets for benchmarking and developing epithelial–mesenchymal transition (EMT) scoring methods. This package is prepared as the companion dataset for the upcoming EMTscore R package.
+
+# 2. Installation
+## Install the development version from GitHub
+```{r install_github, eval=FALSE}
+# install.packages("devtools")
+#devtools::install_github("wenmm/EMTscore")
+#devtools::install_github("wenmm/EMTscoreData")
+```
+
+## Install from Bioconductor (recommended once available):
+```{r install}
+#if (!require("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+
+#BiocManager::install("EMTscore")
+#BiocManager::install("EMTscoreData")
+```
+
+# 3. Download data from the EMTscoreData R package
+You can obtain the datasets included in this package through the `ExperimentHub` framework. To start, use query() to inspect all records associated with the `EMTscoreData` package, which will show you the available resources along with their corresponding identifiers. After identifying the items of interest, you can download them directly from the hub.
+```{r}
+library(EMTscoreData)
+library(EMTscore)
+library(ExperimentHub)
+library(SummarizedExperiment)
+
+eh = ExperimentHub()
+query(eh , 'EMTscoreData')
+```
+
+## Download data using the unique identifier:
+```{r}
+A549_TNF <- eh[['EH10291']]
+A549_EGF <- eh[['EH10292']]
+A549_TGFB1 <- eh[['EH10293']]
+```
+
+# 4. Data analysis and visualization
+
+## 4.1 Load R package and data
+```{r}
+library("EMTscore")
+data("Panchy_et_al_E_signature", package = "EMTscore")
+data("Panchy_et_al_M_signature", package = "EMTscore")
+```
+
+## 4.2 Prepare gene sets and save as GMT
+```{r}
+gene_sets <- list(
+Panchy_et_al_E_signature = Panchy_et_al_E_signature$GeneName,
+Panchy_et_al_M_signature = Panchy_et_al_M_signature$GeneName
+)
+write_gmt(gene_sets, "EM_signature.gmt")
+```
+
+## 4.3 Calculating EMT Scores for Datasets Stored in EMTscoreData
+Calculated EMT scores can then be plotted against pseudotime to examine dynamic changes in epithelial–mesenchymal states.
+```{r}
+objects <- list(
+A549_TGFB1 = A549_TGFB1,
+A549_EGF   = A549_EGF,
+A549_TNF   = A549_TNF
+)
+gmt <- system.file("extdata", "HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION.v2025.1.Hs.gmt", package = "EMTscore")
+
+seurat_objs <- add_EMT_score(objects, gmt_file = gmt, emt_name = "EMT_score", method = "AUCell",nnPCA_dim = 1)
+p_AUCell <- plot_EMT_from_objects(seurat_objs, col_name = "Pseudotime", emt_score_col = "EMT_score")
+p_AUCell
+```
+
+Calculate EMT scores with multiple EMT gene sets
+```{r}
+emt_name = c("Escore", "Mscore")
+result <- add_EMT_score_multiple(objects, gmt_file = "EM_signature.gmt", emt_name, method = "nnPCA", nnPCA_dim = 1, cores = 10)
+
+```
+
+
+```{r}
+sessionInfo()
+```
