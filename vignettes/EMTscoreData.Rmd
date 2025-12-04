@@ -10,7 +10,7 @@ vignette: >
 ---
 
 # 1. Introduction of EMTscoreData
-EMTscoreData is an R ExperimentHub package that provides curated gene expression datasets for benchmarking and developing epithelial–mesenchymal transition (EMT) scoring methods. This package is prepared as the companion dataset for the upcoming EMTscore R package.
+EMTscoreData is an R ExperimentHub package that provides curated gene expression datasets for benchmarking and developing epithelial–mesenchymal transition (EMT) scoring methods. In future updates, we will add more EMT datasets to facilitate users in conducting EMT-related research. This package is now prepared as the companion dataset for the upcoming EMTscore R package.
 
 # 2. Installation
 ## Install the development version from GitHub
