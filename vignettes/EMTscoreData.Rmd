@@ -33,12 +33,34 @@ EMTscoreData is an R ExperimentHub package that provides curated gene expression
 You can obtain the datasets included in this package through the `ExperimentHub` framework. To start, use query() to inspect all records associated with the `EMTscoreData` package, which will show you the available resources along with their corresponding identifiers. After identifying the items of interest, you can download them directly from the hub.
 ```{r}
 library(EMTscoreData)
-library(EMTscore)
+#library(EMTscore)
 library(ExperimentHub)
 library(SummarizedExperiment)
 
 eh = ExperimentHub()
 query(eh , 'EMTscoreData')
+
+library(devtools)
+library(pkgload)
+
+# 1. 下载 ZIP 到临时目录
+temp_dir <- tempdir()
+zip_path <- file.path(temp_dir, "EMTscore.zip")
+
+download.file(
+  url = "https://github.com/wenmm/EMTscore/archive/refs/heads/main.zip",
+  destfile = zip_path,
+  mode = "wb"
+)
+
+# 2. 解压
+unzip(zip_path, exdir = temp_dir)
+
+# 3. 识别解压后的文件夹
+pkg_path <- file.path(temp_dir, "EMTscore-main")
+
+# 4. 加载 GitHub 包（无需安装）
+pkgload::load_all(pkg_path)
 ```
 
 ## Download data using the unique identifier:
@@ -50,11 +72,20 @@ A549_TGFB1 <- eh[['EH10293']]
 
 # 4. Data analysis and visualization
 
-## 4.1 Load R package and data
+## 4.1 Load gene set data
 ```{r}
-library("EMTscore")
+#library("EMTscore")
 data("Panchy_et_al_E_signature", package = "EMTscore")
 data("Panchy_et_al_M_signature", package = "EMTscore")
+#url <- "https://zenodo.org/records/17604490/files/Panchy_et_al_E_signature.rda"
+#E_file <- tempfile(fileext = ".rda")
+#download.file(url, E_file, mode = "wb")
+#load(E_file)
+
+#url <- "https://zenodo.org/records/17604490/files/Panchy_et_al_M_signature.rda"
+#M_file <- tempfile(fileext = ".rda")
+#download.file(url, M_file, mode = "wb")
+#load(M_file)
 ```
 
 ## 4.2 Prepare gene sets and save as GMT
