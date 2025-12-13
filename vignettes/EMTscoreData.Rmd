@@ -36,31 +36,11 @@ library(EMTscoreData)
 #library(EMTscore)
 library(ExperimentHub)
 library(SummarizedExperiment)
-
+library(SeuratWrappers)
+library(Seurat)
+library(ggplot2)
 eh = ExperimentHub()
 query(eh , 'EMTscoreData')
-
-library(devtools)
-library(pkgload)
-
-# 1. 下载 ZIP 到临时目录
-temp_dir <- tempdir()
-zip_path <- file.path(temp_dir, "EMTscore.zip")
-
-download.file(
-  url = "https://github.com/wenmm/EMTscore/archive/refs/heads/main.zip",
-  destfile = zip_path,
-  mode = "wb"
-)
-
-# 2. 解压
-unzip(zip_path, exdir = temp_dir)
-
-# 3. 识别解压后的文件夹
-pkg_path <- file.path(temp_dir, "EMTscore-main")
-
-# 4. 加载 GitHub 包（无需安装）
-pkgload::load_all(pkg_path)
 ```
 
 ## Download data using the unique identifier:
@@ -75,29 +55,26 @@ A549_TGFB1 <- eh[['EH10293']]
 ## 4.1 Load gene set data
 ```{r}
 #library("EMTscore")
-data("Panchy_et_al_E_signature", package = "EMTscore")
-data("Panchy_et_al_M_signature", package = "EMTscore")
-#url <- "https://zenodo.org/records/17604490/files/Panchy_et_al_E_signature.rda"
-#E_file <- tempfile(fileext = ".rda")
-#download.file(url, E_file, mode = "wb")
-#load(E_file)
+#data("Panchy_et_al_E_signature", package = "EMTscore")
+#data("Panchy_et_al_M_signature", package = "EMTscore")
+url <- "https://zenodo.org/records/17917654/files/HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION.v2025.1.Hs.gmt"
+gmt_file <- tempfile(fileext = ".gmt")
+download.file(url, gmt_file, mode = "wb")
 
-#url <- "https://zenodo.org/records/17604490/files/Panchy_et_al_M_signature.rda"
-#M_file <- tempfile(fileext = ".rda")
-#download.file(url, M_file, mode = "wb")
-#load(M_file)
+
+read_gmt <- function(fname){
+  gmt_lines <- readLines(fname)
+  gmt_list <- lapply(gmt_lines, function(x) unlist(strsplit(x, split="\t")))
+  gmt_genes <- lapply(gmt_list, function(x) x[3:length(x)])
+  genes <- unique(unlist(gmt_genes))
+  return(data.frame(gene = genes, stringsAsFactors = FALSE))
+}
+
+Genesets <- read_gmt(gmt_file)
 ```
 
-## 4.2 Prepare gene sets and save as GMT
-```{r}
-gene_sets <- list(
-Panchy_et_al_E_signature = Panchy_et_al_E_signature$GeneName,
-Panchy_et_al_M_signature = Panchy_et_al_M_signature$GeneName
-)
-write_gmt(gene_sets, "EM_signature.gmt")
-```
 
-## 4.3 Calculating EMT Scores for Datasets Stored in EMTscoreData
+## 4.2 Calculating EMT Scores for Datasets Stored in EMTscoreData
 Calculated EMT scores can then be plotted against pseudotime to examine dynamic changes in epithelial–mesenchymal states.
 ```{r}
 objects <- list(
@@ -105,19 +82,73 @@ A549_TGFB1 = A549_TGFB1,
 A549_EGF   = A549_EGF,
 A549_TNF   = A549_TNF
 )
-gmt <- system.file("extdata", "HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION.v2025.1.Hs.gmt", package = "EMTscore")
 
-seurat_objs <- add_EMT_score(objects, gmt_file = gmt, emt_name = "EMT_score", method = "AUCell",nnPCA_dim = 1)
+emt_genes <- Genesets$gene
+
+add_EMT_score <- function(objects,
+                          gmt_file,
+                          emt_name = "EMT_Score") {
+  
+  Genesets <- read_gmt(gmt_file)
+  emt_genes <- Genesets$gene
+  
+  obj_list <- lapply(names(objects), function(name) {
+    
+    obj <- objects[[name]]
+    
+    # Convert SCE → Seurat
+    if (inherits(obj, "SingleCellExperiment")) {
+      message("Converting SCE to Seurat: ", name)
+      obj <- as.Seurat(obj, data = "logcounts")
+    }
+    if (!inherits(obj, "Seurat")) {
+      stop("Object ", name, " is not a Seurat or SCE object.")
+    }
+    
+    obj <- UpdateSeuratObject(obj)
+    
+    # get gene expression matrix
+    geneExp <- GetAssayData(obj, assay = "RNA", slot = "data")
+    
+      
+    obj <- AddModuleScore(obj, features = list(emt_genes), name = emt_name, ctrl = 5)
+    colnames(obj@meta.data)[colnames(obj@meta.data) == paste0(emt_name, "1")] <- emt_name
+      
+    
+    return(obj)
+  })
+  
+  names(obj_list) <- names(objects)
+  return(obj_list)
+}
+
+plot_EMT_from_objects <- function(obj_list, col_name,
+                                  emt_score_col) {
+  
+  # Merge all Seurat object meta.data
+  plot_df <- do.call(rbind, lapply(names(obj_list), function(name) {
+    obj <- obj_list[[name]]
+    df <- obj@meta.data[, c(col_name, emt_score_col), drop = FALSE]
+    colnames(df) <- c(col_name, emt_score_col)
+    df$Condition <- name
+    df <- df[order(df[[col_name]]), ]  
+    df
+  }))
+  
+  # Draw smooth curves
+  p <- ggplot(plot_df, aes_string(x = col_name, y = emt_score_col, color = "Condition")) +
+    geom_smooth(method = "loess", se = FALSE, linewidth = 1.2) +
+    theme_classic(base_size = 14) +
+    labs(x = col_name, y = emt_score_col, color = "Condition")
+  
+  return(p)
+}
+
+seurat_objs <- add_EMT_score(objects, gmt_file = gmt_file, emt_name = "EMT_score")
 p_AUCell <- plot_EMT_from_objects(seurat_objs, col_name = "Pseudotime", emt_score_col = "EMT_score")
 p_AUCell
 ```
 
-Calculate EMT scores with multiple EMT gene sets
-```{r}
-emt_name = c("Escore", "Mscore")
-result <- add_EMT_score_multiple(objects, gmt_file = "EM_signature.gmt", emt_name, method = "nnPCA", nnPCA_dim = 1, cores = 10)
-
-```
 
 
 ```{r}

@@ -10,7 +10,9 @@ Imports:
     AnnotationHub,
     SummarizedExperiment,
     Seurat,
-    SingleCellExperiment
+    SingleCellExperiment,
+    SeuratWrappers,
+    ggplot2
 Suggests:
     googledrive,
     BiocStyle,

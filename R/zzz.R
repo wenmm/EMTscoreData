@@ -23,7 +23,7 @@
 #' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional
 #' response. \emph{Nature Communications} 2020 May 1;11(1):2142.
 #' @export
-#' @import AnnotationHub ExperimentHub Seurat SingleCellExperiment
+#' @import AnnotationHub ExperimentHub Seurat SingleCellExperiment ggplot2 SeuratWrappers Seurat
 #' @examples
 #' library(ExperimentHub)
 #' eh <- ExperimentHub()
