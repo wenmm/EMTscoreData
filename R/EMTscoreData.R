@@ -29,7 +29,7 @@
 #' 
 #' source GEO accession: GSE147405
 #' @export
-#' @importFrom ExperimentalHub EMTscoreData AnnotationHub ggplot2 SeuratWrappers Seurat
+#' @importFrom ExperimentalHub EMTscoreData AnnotationHub ggplot2 Seurat
 #' @references
 #' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional
 #' response. Nature Communications. 2020 May 1;11(1):2142. PMID: 32358524
