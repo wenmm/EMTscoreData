@@ -11,13 +11,13 @@ Imports:
     SummarizedExperiment,
     Seurat,
     SingleCellExperiment,
-    SeuratWrappers,
     ggplot2
 Suggests:
     googledrive,
     BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    SeuratWrappers
 VignetteBuilder: knitr
 biocViews: 
     ExperimentHub,
