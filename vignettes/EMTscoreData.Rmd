@@ -107,7 +107,7 @@ add_EMT_score <- function(objects,
     obj <- UpdateSeuratObject(obj)
     
     # get gene expression matrix
-    geneExp <- GetAssayData(obj, assay = "RNA", slot = "data")
+    geneExp <- GetAssayData(obj, assay = "RNA", layer = "data")
     
       
     obj <- AddModuleScore(obj, features = list(emt_genes), name = emt_name, ctrl = 5)
