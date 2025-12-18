@@ -28,7 +28,6 @@
 #' }
 #' 
 #' source GEO accession: GSE147405
-#' @export
 #' @importFrom ExperimentalHub EMTscoreData AnnotationHub ggplot2 Seurat
 #' @references
 #' Cook DP, Vanderhyden BC. Context specificity of the EMT transcriptional
